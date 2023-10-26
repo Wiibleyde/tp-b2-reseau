@@ -4,7 +4,11 @@ from sys import argv
 import socket
 
 def getIp():
-    return psutil.net_if_addrs()['wlp0s20f3'][0][1]
+    ips = psutil.net_if_addrs()
+    adress = {}
+    for i in ips:
+        adress[i] = ips[i][0].address
+    return adress
 
 def ping(host):
     return system("ping -c 1 " + host + " > /dev/null")
@@ -21,7 +25,8 @@ def lookup(name):
 if __name__ == "__main__":
     cmd = argv[1]
     if cmd == "ip":
-        print(getIp())
+        for i in getIp():
+            print(i, ":", getIp()[i])
     elif cmd == "ping":
         print(is_up(argv[2]))
     elif cmd == "lookup":
