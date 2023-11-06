@@ -1,5 +1,6 @@
 import socket
 import sys
+from time import sleep
 
 def listen(ip, port=13337):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -19,8 +20,12 @@ def listen(ip, port=13337):
             sys.stdout.flush()
         except KeyboardInterrupt:
             break
+        except BrokenPipeError:
+            break
     conn.close()
     s.close()
     
 if __name__ == '__main__':
-    listen('10.1.1.10')
+    while True:
+        listen('10.1.1.10')
+        sleep(1)
