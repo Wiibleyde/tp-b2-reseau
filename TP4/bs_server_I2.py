@@ -19,11 +19,10 @@ def listen(ip, port=13337):
                 conn.send("Mes respects humble humain.".encode())
             sys.stdout.flush()
         except KeyboardInterrupt:
-            break
+            conn.close()
+            s.close()
         except BrokenPipeError:
             break
-    conn.close()
-    s.close()
     
 if __name__ == '__main__':
     while True:
