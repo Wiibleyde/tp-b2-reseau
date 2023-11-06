@@ -18,7 +18,5 @@ def connect(ip, port=13337):
         return
 
 if __name__ == '__main__':
-    while True:
-        connect('10.1.1.10')
-        sleep(1)
+    connect('10.1.1.10')
         
