@@ -8,10 +8,14 @@ def connect(ip, port=13337):
     except:
         print("Connection failed")
         return
-    print(f"Connecté avec succès au serveur {ip} sur le port {port}")
-    s.send(input("Que veux-tu envoyer au serveur : ").encode())
-    print(s.recv(1024).decode())
-    s.close()
+    try:
+        print(f"Connecté avec succès au serveur {ip} sur le port {port}")
+        s.send(input("Que veux-tu envoyer au serveur : ").encode())
+        print(s.recv(1024).decode())
+    except:
+        print("Le serveur a fermé la connexion")
+        s.close()
+        return
 
 if __name__ == '__main__':
     while True:
