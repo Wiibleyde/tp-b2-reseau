@@ -1,6 +1,7 @@
 import socket
 import sys
 from time import sleep
+import argparse
 
 def listen(ip, port=13337):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -24,7 +25,20 @@ def listen(ip, port=13337):
         except BrokenPipeError:
             break
     
+def parseArgs():
+    parser = argparse.ArgumentParser(description="Serveur de la partie II du TP4")
+    parser.add_argument('-p', '--port', type=int, default=13337, help="Port d'écoute du serveur entre 1024 et 65535 (13337 par défaut)")
+    return parser.parse_args()
+
 if __name__ == '__main__':
+    args = parseArgs()
+    if args.port < 0 or args.port > 65535:
+        if args.port < 1024:
+            print("ERROR Le port spécifié est un port privilégié. Spécifiez un port au dessus de 1024.")
+            exit(2)
+        else:
+            print("ERROR Le port spécifié n'est pas un port possible (de 0 à 65535).")
+            exit(1)
     while True:
-        listen('localhost')
+        listen('localhost', args.port)
         sleep(1)
