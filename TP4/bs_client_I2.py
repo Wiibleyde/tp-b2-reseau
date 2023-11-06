@@ -1,5 +1,4 @@
 import socket
-from time import sleep
 
 def connect(ip, port=13337):
     try:

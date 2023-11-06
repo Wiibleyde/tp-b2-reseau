@@ -1,5 +1,4 @@
 import socket
-from time import sleep
 import regex
 
 def connect(ip, port=13337):
