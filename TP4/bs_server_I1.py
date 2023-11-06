@@ -1,4 +1,5 @@
 import socket
+import sys
 
 def listen(ip, port=13337):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -8,6 +9,8 @@ def listen(ip, port=13337):
     while True:
         try:
             response = conn.recv(1024).decode()
+            print(response)
+            sys.stdout.flush()
             if response == 'Meooooo !':
                 conn.send("Hi mate !".encode())
         except:
