@@ -9,7 +9,7 @@ def listen(ip, port=13337):
     while True:
         try:
             response = conn.recv(1024).decode()
-            print(response.strip())
+            print(response.encode())
             sys.stdout.flush()
             if response == 'Meooooo !':
                 conn.send("Hi mate !".encode())
