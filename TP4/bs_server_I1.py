@@ -6,10 +6,16 @@ def listen(ip, port=13337):
     s.listen(1)
     conn, addr = s.accept()
     while True:
-        response = conn.recv(1024).decode()
-        print(conn.recv(1024).decode())
+        data = b''
+        while True:
+            chunk = conn.recv(1024)
+            if not chunk:
+                break
+            data += chunk
+        response = data.decode()
         if response == 'Meooooo !':
             conn.send("Hi mate !".encode())
+
 
 if __name__ == '__main__':
     listen('10.1.1.10')
