@@ -8,4 +8,4 @@ def connect(ip, port=13337):
     s.close()
 
 if __name__ == '__main__':
-    connect('10.1.1.11')
+    connect('10.1.1.10')
