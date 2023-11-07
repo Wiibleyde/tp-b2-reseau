@@ -20,4 +20,5 @@ def connect(ip, port=13337):
         print(f"Une erreur s'est produite: {e}")
 
 if __name__ == '__main__':
-    connect('10.1.1.10')
+    while True:
+        connect('10.1.1.10')
