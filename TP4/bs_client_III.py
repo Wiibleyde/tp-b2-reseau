@@ -9,7 +9,7 @@ def connect(ip, port=13337):
             s.connect((ip, port))
             logger.info(f"Connecté réussie à {ip}:{port}")
             message = input("Quel calcul souhaitez vous envoyer ? : ")
-            if regex.match(r"^-?([1-9][0-9]{0,4}|100000)$", message):
+            if regex.match(r"^-?[0-9]{1,6} [-+*/] -?[0-9]{1,6}$", message):
                 s.send(message.encode())
                 logger.info(f"Message envoyé au serveur {ip}:{port} : {message}")
                 logger.info(f"Réponse du serveur {ip}:{port} : {s.recv(1024).decode()}")
