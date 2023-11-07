@@ -9,6 +9,8 @@ def connect(ip, port=13337):
             s.connect((ip, port))
             logger.info(f"Connecté réussie à {ip}:{port}")
             message = input("Quel calcul souhaitez vous envoyer ? : ")
+            logger.debug(type(message) != str)
+            logger.debug(not testIfNumberAreValid(message))
             if type(message) != str or not testIfNumberAreValid(message):
                 s.send(message.encode())
                 logger.info(f"Message envoyé au serveur {ip}:{port} : {message}")
