@@ -48,5 +48,5 @@ if __name__ == '__main__':
             exit(1)
     logger.info(f"Le serveur tourne sur localhost:{args.port}")
     while True:
-        listen('localhost', args.port)
+        listen('10.1.1.1', args.port)
         sleep(1)
