@@ -27,7 +27,7 @@ def listen(ip, port=13337):
             else:
                 conn.send("Mes respects humble humain.".encode())
                 logger.info(f"Réponse envoyée au client {addr} : Mes respects humble humain.")
-            sys.stdout.flush()
+            # sys.stdout.flush()
         except KeyboardInterrupt:
             conn.close()
             s.close()
