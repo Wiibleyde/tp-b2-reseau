@@ -39,9 +39,8 @@ def listen(ip, port=13337, timeout=60):
             s.close()
             logger.info("Le serveur a été arrêté.")
             exit(0)
-
         if time.time() - start_time > timeout:
-            logger.info(f"Timeout de {timeout} secondes sans connexion.")
+            logger.info(f"Aucun client depuis plus de {timeout} secondes.")
             start_time = time.time()
 
 def parseArgs():
@@ -59,4 +58,4 @@ if __name__ == '__main__':
         else:
             logger.critical("ERROR Le port spécifié n'est pas un port possible (de 0 à 65535).")
             exit(1)
-    listen('10.1.1.10', args.port, 5)
+    listen('10.1.1.10', args.port, 60)
