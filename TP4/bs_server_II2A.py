@@ -42,6 +42,7 @@ def listen(ip, port=13337, timeout=60):
 
         if time.time() - start_time > timeout:
             logger.info(f"Timeout de {timeout} secondes sans connexion.")
+            start_time = time.time()
 
 def parseArgs():
     parser = argparse.ArgumentParser(description="Serveur de la partie II du TP4")
