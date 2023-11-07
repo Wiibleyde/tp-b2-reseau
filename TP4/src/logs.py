@@ -27,7 +27,6 @@ class CustomFormatter(logging.Formatter):
 
 class Logger:
     def __init__(self,filePath="TP4/logs.log", withConsole=True):
-        # Create if not exist
         if not os.path.exists(os.path.dirname(filePath)):
             os.makedirs(os.path.dirname(filePath))
         self.logger = logging.getLogger(__name__)

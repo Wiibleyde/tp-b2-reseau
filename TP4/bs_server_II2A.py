@@ -12,15 +12,19 @@ def listen(ip, port=13337):
     conn, addr = s.accept()
     while True:
         try:
-            print(f"Un client vient de se co et son IP c'est {addr}")
+            logger.info(f"Un client {addr} s'est connecté.")
             response = conn.recv(1024).decode()
+            logger.info(f"Le client {addr} a envoyé {response}")
             if "meo" in response:
                 conn.send("Meo à toi confrère.".encode())
+                logger.info(f"Réponse envoyée au client {addr} : Meo à toi confrère.")
             elif "waf" in response:
                 conn.send("ptdr t ki".encode())
+                logger.info(f"Réponse envoyée au client {addr} : ptdr t ki")
             else:
                 conn.send("Mes respects humble humain.".encode())
-            sys.stdout.flush()
+                logger.info(f"Réponse envoyée au client {addr} : Mes respects humble humain.")
+            # sys.stdout.flush()
         except KeyboardInterrupt:
             conn.close()
             s.close()
