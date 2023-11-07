@@ -4,7 +4,7 @@ from time import sleep
 import argparse
 import psutil
 
-from .src.logs import Logger
+from src.logs import Logger
 
 def listen(ip, port=13337):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
