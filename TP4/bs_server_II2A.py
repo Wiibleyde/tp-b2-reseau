@@ -1,7 +1,6 @@
 import socket
 import sys
-import select
-from time import sleep
+import time
 import argparse
 from src.logs import Logger
 
@@ -10,35 +9,44 @@ def listen(ip, port=13337, timeout=60):
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((ip, port))
     s.listen(1)
+    s.setblocking(0) 
 
-    inputs = [s]
     logger.info(f"Le serveur tourne sur {ip}:{port}")
+
+    start_time = time.time()
 
     while True:
         try:
-            readable, _, _ = select.select(inputs, [], [], timeout)
-            if s in readable:
-                conn, addr = s.accept()
-                logger.info(f"Un client {addr} s'est connecté.")
-                response = conn.recv(1024).decode()
-                if response != "":
-                    logger.info(f"Le client {addr} a envoyé {response}")
-                    if "meo" in response:
-                        conn.send("Meo à toi confrère.".encode())
-                        logger.info(f"Réponse envoyée au client {addr} : Meo à toi confrère.")
-                    elif "waf" in response:
-                        conn.send("ptdr t ki".encode())
-                        logger.info(f"Réponse envoyée au client {addr} : ptdr t ki")
-                    else:
-                        conn.send("Mes respects humble humain.".encode())
-                        logger.info(f"Réponse envoyée au client {addr} : Mes respects humble humain.")
-                conn.close()
+            conn, addr = s.accept()
+            logger.info(f"Un client {addr} s'est connecté.")
+            response = conn.recv(1024).decode()
+            if response != "":
+                logger.info(f"Le client {addr} a envoyé {response}")
+                if "meo" in response:
+                    conn.send("Meo à toi confrère.".encode())
+                    logger.info(f"Réponse envoyée au client {addr} : Meo à toi confrère.")
+                elif "waf" in response:
+                    conn.send("ptdr t ki".encode())
+                    logger.info(f"Réponse envoyée au client {addr} : ptdr t ki")
+                else:
+                    conn.send("Mes respects humble humain.".encode())
+                    logger.info(f"Réponse envoyée au client {addr} : Mes respects humble humain.")
+            conn.close()
+            start_time = time.time()  # Réinitialiser le temps dès qu'une connexion est établie
+        except socket.error as e:
+            if e.errno == 11:  # Erreur de ressources temporaires indisponibles
+                pass
+            else:
+                raise
         except KeyboardInterrupt:
             s.close()
             logger.info("Le serveur a été arrêté.")
             exit(0)
-        except BrokenPipeError:
-            pass
+
+        if time.time() - start_time > timeout:
+            logger.info(f"Timeout de {timeout} secondes sans connexion. Arrêt du serveur.")
+            s.close()
+            exit(0)
 
 def parseArgs():
     parser = argparse.ArgumentParser(description="Serveur de la partie II du TP4")
