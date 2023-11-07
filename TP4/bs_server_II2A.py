@@ -50,6 +50,10 @@ if __name__ == '__main__':
             logger.critical("ERROR Le port spécifié n'est pas un port possible (de 0 à 65535).")
             exit(1)
     logger.info(f"Le serveur tourne sur localhost:{args.port}")
+    time = 0
     while True:
         listen('10.1.1.10', args.port)
+        time += 1
         sleep(1)
+        if time == 60:
+            logger.warning("Aucune connexion depuis 1 minute.")
