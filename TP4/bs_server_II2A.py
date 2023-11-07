@@ -56,6 +56,7 @@ if __name__ == '__main__':
 
     while True:
         connection_made = listen('10.1.1.10', args.port)
+        logger.debug(f"connection_made = {connection_made}")
         if connection_made:
             last_connection_time = time.time()
         elif time.time() - last_connection_time > 60:
