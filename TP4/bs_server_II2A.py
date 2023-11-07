@@ -1,6 +1,6 @@
 import socket
 import sys
-from time import sleep
+import time
 import argparse
 
 from src.logs import Logger
@@ -50,11 +50,13 @@ if __name__ == '__main__':
             logger.critical("ERROR Le port spécifié n'est pas un port possible (de 0 à 65535).")
             exit(1)
     logger.info(f"Le serveur tourne sur localhost:{args.port}")
-    time = 0
+
+    last_connection_time = time.time()
+
     while True:
-        listen('10.1.1.10', args.port)
-        time += 1
-        sleep(1)
-        if time == 60:
-            logger.warning("Aucune connexion depuis 1 minute.")
-            time = 0
+        connection_made = listen('10.1.1.10', args.port)
+        if connection_made:
+            last_connection_time = time.time()
+        elif time.time() - last_connection_time > 60:
+            logger.warning("Aucune connexion n'a été établie depuis plus d'une minute.")
+        time.sleep(1)
