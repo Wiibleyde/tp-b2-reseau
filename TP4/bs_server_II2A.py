@@ -57,3 +57,4 @@ if __name__ == '__main__':
         sleep(1)
         if time == 60:
             logger.warning("Aucune connexion depuis 1 minute.")
+            time = 0
