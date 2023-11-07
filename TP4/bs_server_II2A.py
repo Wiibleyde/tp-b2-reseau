@@ -18,15 +18,16 @@ def listen(ip, port=13337):
             if response != "":
                 logger.info(f"Le client {addr} a envoyé {response}")
                 break
-            if "meo" in response:
-                conn.send("Meo à toi confrère.".encode())
-                logger.info(f"Réponse envoyée au client {addr} : Meo à toi confrère.")
-            elif "waf" in response:
-                conn.send("ptdr t ki".encode())
-                logger.info(f"Réponse envoyée au client {addr} : ptdr t ki")
             else:
-                conn.send("Mes respects humble humain.".encode())
-                logger.info(f"Réponse envoyée au client {addr} : Mes respects humble humain.")
+                if "meo" in response:
+                    conn.send("Meo à toi confrère.".encode())
+                    logger.info(f"Réponse envoyée au client {addr} : Meo à toi confrère.")
+                elif "waf" in response:
+                    conn.send("ptdr t ki".encode())
+                    logger.info(f"Réponse envoyée au client {addr} : ptdr t ki")
+                else:
+                    conn.send("Mes respects humble humain.".encode())
+                    logger.info(f"Réponse envoyée au client {addr} : Mes respects humble humain.")
             # sys.stdout.flush()
         except KeyboardInterrupt:
             conn.close()
