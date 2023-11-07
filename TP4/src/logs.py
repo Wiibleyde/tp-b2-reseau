@@ -1,6 +1,29 @@
 import logging
 import os
 
+class CustomFormatter(logging.Formatter):
+
+    grey = "\x1b[38;20m"
+    yellow = "\x1b[33;20m"
+    red = "\x1b[31;20m"
+    bold_red = "\x1b[31;1m"
+    reset = "\x1b[0m"
+    format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s (%(filename)s:%(lineno)d)"
+
+    FORMATS = {
+        logging.DEBUG: grey + format + reset,
+        logging.INFO: grey + format + reset,
+        logging.WARNING: yellow + format + reset,
+        logging.ERROR: red + format + reset,
+        logging.CRITICAL: bold_red + format + reset
+    }
+
+    def format(self, record):
+        log_fmt = self.FORMATS.get(record.levelno)
+        formatter = logging.Formatter(log_fmt)
+        return formatter.format(record)
+
+
 class Logger:
     def __init__(self,filePath="TP4/logs.log", withConsole=True):
         # Create if not exist
@@ -8,7 +31,7 @@ class Logger:
             os.makedirs(os.path.dirname(filePath))
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+        formatter = CustomFormatter()
         file_handler = logging.FileHandler(filePath)
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(formatter)
