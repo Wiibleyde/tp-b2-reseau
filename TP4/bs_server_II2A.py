@@ -40,7 +40,7 @@ def listen(ip, port=13337, timeout=60):
             logger.info("Le serveur a été arrêté.")
             exit(0)
         if time.time() - start_time > timeout:
-            logger.info(f"Aucun client depuis plus de {timeout} secondes.")
+            logger.warning(f"Aucun client depuis plus de {timeout} secondes.")
             start_time = time.time()
 
 def parseArgs():
