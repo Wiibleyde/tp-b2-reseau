@@ -8,15 +8,16 @@ class Logger:
             os.makedirs(os.path.dirname(filePath))
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
+        formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
         file_handler = logging.FileHandler(filePath)
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(formatter)
         self.logger.addHandler(file_handler)
         if withConsole:
-            stream_handler = logging.StreamHandler()
-            stream_handler.setLevel(logging.DEBUG)
-            self.logger.addHandler(stream_handler)
+            console_handler = logging.StreamHandler()
+            console_handler.setLevel(logging.DEBUG)
+            console_handler.setFormatter(formatter)
+            self.logger.addHandler(console_handler)
 
     def emergency(self,message):
         self.logger.critical(message)
