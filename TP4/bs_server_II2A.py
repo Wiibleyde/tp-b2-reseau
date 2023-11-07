@@ -10,11 +10,8 @@ def listen(ip, port=13337, timeout=60):
     s.bind((ip, port))
     s.listen(1)
     s.setblocking(0) 
-
     logger.info(f"Le serveur tourne sur {ip}:{port}")
-
     start_time = time.time()
-
     while True:
         try:
             conn, addr = s.accept()
@@ -32,9 +29,9 @@ def listen(ip, port=13337, timeout=60):
                     conn.send("Mes respects humble humain.".encode())
                     logger.info(f"Réponse envoyée au client {addr} : Mes respects humble humain.")
             conn.close()
-            start_time = time.time()  # Réinitialiser le temps dès qu'une connexion est établie
+            start_time = time.time()
         except socket.error as e:
-            if e.errno == 11:  # Erreur de ressources temporaires indisponibles
+            if e.errno == 11:
                 pass
             else:
                 raise
@@ -44,9 +41,7 @@ def listen(ip, port=13337, timeout=60):
             exit(0)
 
         if time.time() - start_time > timeout:
-            logger.info(f"Timeout de {timeout} secondes sans connexion. Arrêt du serveur.")
-            s.close()
-            exit(0)
+            logger.info(f"Timeout de {timeout} secondes sans connexion.")
 
 def parseArgs():
     parser = argparse.ArgumentParser(description="Serveur de la partie II du TP4")
