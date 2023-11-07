@@ -11,27 +11,28 @@ def listen(ip, port=13337):
     s.bind((ip, port))
     s.listen(1)
     conn, addr = s.accept()
-    while True:
-        try:
-            logger.info(f"Un client {addr} s'est connecté.")
-            response = conn.recv(1024).decode()
-            if response != "":
-                logger.info(f"Le client {addr} a envoyé {response}")
-                if "meo" in response:
-                    conn.send("Meo à toi confrère.".encode())
-                    logger.info(f"Réponse envoyée au client {addr} : Meo à toi confrère.")
-                elif "waf" in response:
-                    conn.send("ptdr t ki".encode())
-                    logger.info(f"Réponse envoyée au client {addr} : ptdr t ki")
-                else:
-                    conn.send("Mes respects humble humain.".encode())
-                    logger.info(f"Réponse envoyée au client {addr} : Mes respects humble humain.")
-                # sys.stdout.flush()
-        except KeyboardInterrupt:
-            conn.close()
-            s.close()
-        except BrokenPipeError:
-            break
+    try:
+        logger.info(f"Un client {addr} s'est connecté.")
+        response = conn.recv(1024).decode()
+        if response != "":
+            logger.info(f"Le client {addr} a envoyé {response}")
+            if "meo" in response:
+                conn.send("Meo à toi confrère.".encode())
+                logger.info(f"Réponse envoyée au client {addr} : Meo à toi confrère.")
+            elif "waf" in response:
+                conn.send("ptdr t ki".encode())
+                logger.info(f"Réponse envoyée au client {addr} : ptdr t ki")
+            else:
+                conn.send("Mes respects humble humain.".encode())
+                logger.info(f"Réponse envoyée au client {addr} : Mes respects humble humain.")
+            # sys.stdout.flush()
+    except KeyboardInterrupt:
+        conn.close()
+        s.close()
+        logger.info("Le serveur a été arrêté.")
+        exit(0)
+    except BrokenPipeError:
+        return
     
 def parseArgs():
     parser = argparse.ArgumentParser(description="Serveur de la partie II du TP4")
