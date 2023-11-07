@@ -9,8 +9,6 @@
 
 ## 1. Args
 
-**On utilise [la lib `argparse`](../../../../cours/dev/argparse/README.md) pour faire ça bien en Python !**
-
 🌞 **`bs_server_II1.py`**
 
 [Fichier ici](./bs_server_II1.py)
