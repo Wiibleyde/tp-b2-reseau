@@ -14,8 +14,9 @@ def listen(ip, port=13337):
         try:
             logger.info(f"Un client {addr} s'est connecté.")
             response = conn.recv(1024).decode()
-            logger.debug(response)
-            logger.info(f"Le client {addr} a envoyé {response}")
+            if not response:
+                logger.info(f"Le client {addr} a envoyé {response}")
+                break
             if "meo" in response:
                 conn.send("Meo à toi confrère.".encode())
                 logger.info(f"Réponse envoyée au client {addr} : Meo à toi confrère.")
