@@ -19,7 +19,7 @@ def connect(ip, port=13337):
             else:
                 raise ValueError("Le message doit être obligatoirement 'meo' ou 'waf'.")
     except socket.error:
-        raise ConnectionError(f"Impossible de se connecter au serveur {ip} sur le port {port}")
+        raise f"Impossible de se connecter au serveur {ip} sur le port {port}"
     except Exception as e:
         logger.critical(f"Une erreur s'est produite: {e}")
         exit(2)
