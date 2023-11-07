@@ -7,6 +7,7 @@ from src.logs import Logger
 
 def listen(ip, port=13337):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((ip, port))
     s.listen(1)
     conn, addr = s.accept()
