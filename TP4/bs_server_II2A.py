@@ -53,6 +53,7 @@ if __name__ == '__main__':
     logger.info(f"Le serveur tourne sur localhost:{args.port}")
 
     last_connection_time = time.time()
+    logger.debug(f"last_connection_time = {last_connection_time}")
 
     while True:
         connection_made = listen('10.1.1.10', args.port)
