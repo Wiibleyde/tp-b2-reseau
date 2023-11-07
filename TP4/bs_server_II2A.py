@@ -2,7 +2,6 @@ import socket
 import sys
 from time import sleep
 import argparse
-import psutil
 
 from src.logs import Logger
 
