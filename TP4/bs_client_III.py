@@ -32,7 +32,7 @@ def testIfNumberAreValid(calcul:int) -> bool:
     logger.debug(nbs)
     nbs.pop(1)
     for nb in nbs:
-        logger.debug(nb)
+        logger.debug(int(nb))
         if not nb.isnumeric() or int(nb) < -100000 or int(nb) > 100000:
             return False
     return True
