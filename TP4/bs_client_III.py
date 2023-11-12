@@ -29,8 +29,10 @@ def testIfNumberAreValid(calcul:int) -> bool:
     nbs = calcul.split(" ")
     if len(nbs) != 3:
         return False
+    logger.debug(nbs)
     nbs.pop(1)
     for nb in nbs:
+        logger.debug(nb)
         if not nb.isnumeric() or int(nb) < -100000 or int(nb) > 100000:
             return False
     return True
