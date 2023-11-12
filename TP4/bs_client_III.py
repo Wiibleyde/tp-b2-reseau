@@ -34,8 +34,8 @@ def testIfNumberAreValid(calcul:int) -> bool:
     for nb in nbs:
         logger.debug(f"nb: {nb}")
         logger.debug(f"nb.isnumeric(): {nb.isnumeric()}")
-        logger.debug(f"int(nb) < -100000: {int(nb) < -100000}")
-        logger.debug(f"int(nb) > 100000: {int(nb) > 100000}")
+        logger.debug(f"int(nb) < -100000: {nb < -100000}")
+        logger.debug(f"int(nb) > 100000: {nb > 100000}")
         if not nb.isnumeric() or int(nb) < -100000 or int(nb) > 100000:
             return False
     return True
