@@ -1,6 +1,5 @@
 import socket
 import sys
-from time import sleep
 
 from src.logs import Logger
 
