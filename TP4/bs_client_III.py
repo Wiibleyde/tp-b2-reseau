@@ -1,5 +1,6 @@
 import socket
-import regex
+# import regex
+from time import sleep
 
 from src.logs import Logger
 
@@ -14,6 +15,7 @@ def connect(ip, port=13337):
             if type(message) != str or not testIfNumberAreValid(message):
                 s.send(message.encode())
                 logger.info(f"Message envoyé au serveur {ip}:{port} : {message}")
+                sleep(1)
                 logger.info(f"Réponse du serveur {ip}:{port} : {s.recv(1024).decode()}")
             else:
                 raise ValueError("Les nombres doivent être compris entre -100000 et 100000 et le calcul doit être de la forme 'nombre1 opérateur nombre2'.")
