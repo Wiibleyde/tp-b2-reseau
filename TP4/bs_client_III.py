@@ -27,10 +27,12 @@ def connect(ip, port=13337):
 
 def testIfNumberAreValid(calcul:int) -> bool:
     nbs = calcul.split(" ")
-    if int(nbs[0]) < -100000 or int(nbs[0]) > 100000:
+    if len(nbs) != 3:
         return False
-    if int(nbs[2]) < -100000 or int(nbs[2]) > 100000:
-        return False
+    nbs.pop(1)
+    for nb in nbs:
+        if not nb.isnumeric() or int(nb) < -100000 or int(nb) > 100000:
+            return False
     return True
 
 if __name__ == '__main__':
