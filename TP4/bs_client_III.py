@@ -1,5 +1,5 @@
 import socket
-# import regex
+import sys
 from time import sleep
 
 from src.logs import Logger
@@ -18,6 +18,7 @@ def connect(ip, port=13337):
                 logger.info(f"Message envoyé au serveur {ip}:{port} : {message}")
                 logger.info(f"Réponse du serveur {ip}:{port} : {s.recv(1024).decode()}")
                 print(f"Réponse du serveur {ip}:{port} : {s.recv(1024).decode()}")
+                sys.stdout.flush()
             else:
                 raise ValueError("Les nombres doivent être compris entre -100000 et 100000 et le calcul doit être de la forme 'nombre1 opérateur nombre2'.")
     except socket.error:
