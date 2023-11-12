@@ -16,8 +16,9 @@ def connect(ip, port=13337):
                 s.send(message.encode())
                 sleep(0.5)
                 logger.info(f"Message envoyé au serveur {ip}:{port} : {message}")
-                logger.info(f"Réponse du serveur {ip}:{port} : {s.recv(1024).decode()}")
-                print(f"Réponse du serveur {ip}:{port} : {s.recv(1024).decode()}")
+                answer = s.recv(1024).decode()
+                logger.info(f"Réponse du serveur {ip}:{port} : {answer}")
+                print(f"Réponse du serveur {ip}:{port} : {answer}")
                 sys.stdout.flush()
             else:
                 raise ValueError("Les nombres doivent être compris entre -100000 et 100000 et le calcul doit être de la forme 'nombre1 opérateur nombre2'.")
