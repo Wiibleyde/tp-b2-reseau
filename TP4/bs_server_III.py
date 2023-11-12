@@ -19,7 +19,7 @@ def listen(ip, port=13337, timeout=60):
             response = conn.recv(1024).decode()
             if response != "":
                 logger.info(f"Le client {addr} a envoyé {response}")
-                answer = eval(response)
+                answer = str(eval(response))
                 conn.send(answer.encode())
                 logger.info(f"Réponse envoyée au client {addr} : {answer}")
             conn.close()
