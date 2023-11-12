@@ -14,7 +14,6 @@ def connect(ip, port=13337):
             logger.debug(not testIfNumberAreValid(message))
             if type(message) != str or not testIfNumberAreValid(message):
                 s.send(message.encode())
-                sleep(0.5)
                 logger.info(f"Message envoyé au serveur {ip}:{port} : {message}")
                 answer = s.recv(1024).decode()
                 logger.info(f"Réponse du serveur {ip}:{port} : {answer}")
