@@ -25,7 +25,9 @@ def listen(ip, port=13337, timeout=60):
 
             size = header[:2]
             nb1Size = size[0:1]
+            logger.debug(nb1Size)
             nb2Size = size[1:2]
+            logger.debug(nb2Size)
             sign = header[2:3]
             if sign == 0:
                 sign = "+"
