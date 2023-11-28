@@ -20,7 +20,7 @@ def listen(ip, port=13337, timeout=60):
             conn, addr = s.accept()
             logger.info(f"Un client {addr} s'est connecté.")
 
-            header = conn.recv(4).decode()
+            header = conn.recv(4)
             logger.debug(f"Header reçu du client {addr} : {header}")
 
             size = header[:2]
