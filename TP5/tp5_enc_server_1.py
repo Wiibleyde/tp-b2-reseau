@@ -35,6 +35,7 @@ def listen(ip, port=13337, timeout=60):
                 sign = "-"
             elif sign == 2:
                 sign = "*"
+            logger.debug(sign)
             logger.debug(int.from_bytes(nb1Size, 'big'))
             logger.debug(int.from_bytes(nb2Size, 'big'))
             calc = conn.recv(int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big'))
