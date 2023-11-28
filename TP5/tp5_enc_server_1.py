@@ -29,11 +29,12 @@ def listen(ip, port=13337, timeout=60):
             nb2Size = size[1:2]
             logger.debug(nb2Size)
             sign = header[2:3]
-            if sign == 0:
+            decodedSign = int.from_bytes(sign, 'big')
+            if decodedSign == 0:
                 sign = "+"
-            elif sign == 1:
+            elif decodedSign == 1:
                 sign = "-"
-            elif sign == 2:
+            elif decodedSign == 2:
                 sign = "*"
             logger.debug(sign)
             logger.debug(int.from_bytes(nb1Size, 'big'))
