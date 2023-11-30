@@ -40,10 +40,15 @@ def listen(ip, port=13337, timeout=60):
             logger.info(f"Calcul reçu du client {addr} : {calcul}")
             answer = str(eval(calcul))
             conn.send(answer.encode())
-
             logger.info(f"Réponse envoyée au client {addr} : {answer}")
-            conn.close()
             
+            end = conn.recv(1)
+            if end == b'\x00':
+                logger.info(f"Le client {addr} a envoyé un message de fin, fermeture de la connexion.")
+            else:
+                logger.warning(f"Le client {addr} n'a pas envoyé de message de fin / le message de fin n'est pas correct, fermeture de la connexion.")
+            conn.close()
+
             start_time = time.time()
         except socket.error as e:
             if e.errno == 11:
