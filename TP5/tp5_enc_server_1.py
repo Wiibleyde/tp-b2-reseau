@@ -25,9 +25,9 @@ def listen(ip, port=13337, timeout=60):
 
             size = header[:2]
             nb1Size = size[0:1]
-            logger.debug(nb1Size)
+            logger.debug(f"nb1Size: {nb1Size}")
             nb2Size = size[1:2]
-            logger.debug(nb2Size)
+            logger.debug(f"nb2Size: {nb2Size}")
             sign = header[2:3]
             decodedSign = int.from_bytes(sign, 'big')
             if decodedSign == 0:
@@ -36,11 +36,13 @@ def listen(ip, port=13337, timeout=60):
                 sign = "-"
             elif decodedSign == 2:
                 sign = "*"
-            logger.debug(sign)
+            logger.debug(f"sign: {sign}")
             calc = conn.recv(int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big'))
             logger.debug(f"Calcul reçu du client {addr} : {calc}")
             nb1 = calc[:int.from_bytes(nb1Size, 'big')]
+            logger.debug(f"nb1: {nb1}")
             nb2 = calc[int.from_bytes(nb1Size, 'big'):int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big')]
+            logger.debug(f"nb2: {nb2}")
             calcul = f"{int.from_bytes(nb1, 'big')}{sign}{int.from_bytes(nb2, 'big')}"
             logger.info(f"Calcul reçu du client {addr} : {calcul}")
             answer = str(eval(calcul))

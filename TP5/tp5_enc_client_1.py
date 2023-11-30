@@ -83,13 +83,12 @@ def decodeMessage(message: bytes) -> str:
     nb1 = message[3:3+int.from_bytes(nb1Size, 'big')]
     nb2 = message[3+int.from_bytes(nb1Size, 'big'):3+int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big')]
     end = message[3+int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big'):]
-    logger.debug(size)
-    logger.debug(nb1Size)
-    logger.debug(nb2Size)
-    logger.debug(sign)
-    logger.debug(nb1)
-    logger.debug(nb2)
-    logger.debug(end)
+    logger.debug(f"nb1Size: {nb1Size}")
+    logger.debug(f"nb2Size: {nb2Size}")
+    logger.debug(f"sign: {sign}")
+    logger.debug(f"nb1: {nb1}")
+    logger.debug(f"nb2: {nb2}")
+    logger.debug(f"end: {end}")
     return f"{int.from_bytes(nb1, 'big')} {int.from_bytes(sign, 'big')} {int.from_bytes(nb2, 'big')}"
 
 if __name__ == '__main__':
