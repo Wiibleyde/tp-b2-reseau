@@ -46,8 +46,8 @@ def testIfNumberAreValid(calcul:int) -> bool:
         logger.error(f"Les nombres doivent être des entiers.")
         return False
     
-    if int(nbs[0]) > 4294967295 or int(nbs[0]) < -4294967295 or int(nbs[2]) > 4294967295 or int(nbs[2]) < -4294967295:
-        logger.error(f"Les nombres doivent être compris entre -4294967295 et 4294967295.")
+    if int(nbs[0]) > 4294967295 or int(nbs[0]) < 0 or int(nbs[2]) > 4294967295 or int(nbs[2]) < 0:
+        logger.error(f"Les nombres doivent être compris entre 0 et 4294967295.")
         return False
     
     return True
