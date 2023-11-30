@@ -27,10 +27,10 @@ def listen(ip, port=13337, timeout=60):
             splitted = data.split(" ")
             
             if splitted[0:2] == ["GET", "/"]:
-                logger.info(f"Envoi de la page index.html au client {addr}.")
+                logger.info(f"Envoi de la réponse par défaut au client {addr}.")
                 conn.send("HTTP/1.0 200 OK\n\n<h1>Hello je suis un serveur HTTP</h1>".encode())
             else:
-                logger.info(f"Envoi de la page 404.html au client {addr}.")
+                logger.info(f"Envoi de la réponse 404 au client {addr}.")
                 conn.send("HTTP/1.0 404 Not Found\n\n<h1>404 Not Found</h1>".encode())
             conn.close()
 
