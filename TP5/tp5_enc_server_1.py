@@ -38,6 +38,7 @@ def listen(ip, port=13337, timeout=60):
                 sign = "*"
             logger.debug(sign)
             calc = conn.recv(int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big'))
+            logger.debug(f"Calcul reçu du client {addr} : {calc}")
             nb1 = calc[:int.from_bytes(nb1Size, 'big')]
             nb2 = calc[int.from_bytes(nb1Size, 'big'):int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big')]
             calcul = f"{int.from_bytes(nb1, 'big')}{sign}{int.from_bytes(nb2, 'big')}"
