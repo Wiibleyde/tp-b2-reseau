@@ -19,14 +19,23 @@ def listen(ip, port=13337, timeout=60):
         try:
             conn, addr = s.accept()
             logger.info(f"Un client {addr} s'est connecté.")
-
+            
             data = conn.recv(1024).decode()
             logger.info(f"Requête reçue du client {addr} : {data}")
             splitted = data.split(" ")
             
-            if splitted[0:2] == ["GET", "/"]:
-                logger.info(f"Envoi de la réponse par défaut au client {addr}.")
-                conn.send("HTTP/1.0 200 OK\n\n<h1>Hello je suis un serveur HTTP</h1>".encode())
+            if splitted[0] == "GET":
+                if splitted[1] == "/":
+                    logger.info(f"Envoi de la réponse par défaut au client {addr}.")
+                    conn.send("HTTP/1.0 200 OK\n\n<h1>Hello je suis un serveur HTTP</h1>".encode())
+                else:
+                    try:
+                        with open(f"./pages/{splitted[1][1:]}", "r") as f:
+                            logger.info(f"Envoi du fichier {splitted[1][1:]} au client {addr}.")
+                            conn.send("HTTP/1.0 200 OK\n\n".encode() + f.read().encode())
+                    except FileNotFoundError:
+                        logger.info(f"Envoi de la réponse 404 au client {addr}.")
+                        conn.send("HTTP/1.0 404 Not Found\n\n<h1>404 Not Found</h1>".encode())
             else:
                 logger.info(f"Envoi de la réponse 404 au client {addr}.")
                 conn.send("HTTP/1.0 404 Not Found\n\n<h1>404 Not Found</h1>".encode())
