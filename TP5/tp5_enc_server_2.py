@@ -44,8 +44,7 @@ def listen(ip, port=13337, timeout=60):
                 answer = abs(answer)
             else:
                 header = 1
-            conn.send(header.to_bytes(1, 'big'))
-            conn.send(answer.to_bytes(4, 'big'))
+            conn.send(header.to_bytes(1, 'big') + answer.to_bytes(4, 'big'))
             logger.info(f"Réponse envoyée au client {addr} : {answer}")
             
             end = conn.recv(1)
