@@ -32,7 +32,6 @@ def listen(ip, port=13337, timeout=60):
             else:
                 logger.info(f"Envoi de la page 404.html au client {addr}.")
                 conn.send("HTTP/1.0 404 Not Found\n\n<h1>404 Not Found</h1>".encode())
-                
             conn.close()
 
             start_time = time.time()
