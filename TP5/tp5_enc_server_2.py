@@ -41,6 +41,7 @@ def listen(ip, port=13337, timeout=60):
             answer = int(eval(calcul))
             if answer < 0:
                 header = 0
+                answer = abs(answer)
             else:
                 header = 1
             conn.send(header.to_bytes(1, 'big'))
