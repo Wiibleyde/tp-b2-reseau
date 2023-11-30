@@ -23,7 +23,6 @@ def listen(ip, port=13337, timeout=60):
             data = conn.recv(1024).decode()
             logger.info(f"Requête reçue du client {addr} : {data}")
             splitted = data.split(" ")
-            logger.debug(f"Requête reçue du client {addr} : {splitted}")
             
             # Download the file it can be images, html, css, js, etc.
             if splitted[0] == "GET":
@@ -32,7 +31,6 @@ def listen(ip, port=13337, timeout=60):
                     conn.send("HTTP/1.0 200 OK\n\n<h1>Hello je suis un serveur</h1>".encode())
                 else:
                     try:
-                        logger.debug(splitted[1][1:])
                         with open(f"./assets/{splitted[1][1:]}", "rb") as f:
                             logger.info(f"Envoi du fichier {splitted[1][1:]} au client {addr}.")
                             size = len(f.read())
