@@ -65,16 +65,6 @@ def calcNumberSize(nb1:int, nb2:int, sign:str) -> tuple:
     nbsList = [nb1, nb2]
     return (len(nbsList[0].to_bytes(4, 'big')), len(nbsList[1].to_bytes(4, 'big')), sign)
 
-def decodeMessage(message: bytes) -> str:
-    size = message[:2]
-    nb1Size = size[0:1]
-    nb2Size = size[1:2]
-    sign = message[2:3]
-    nb1 = message[3:3+int.from_bytes(nb1Size, 'big')]
-    nb2 = message[3+int.from_bytes(nb1Size, 'big'):3+int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big')]
-    end = message[3+int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big'):]
-    return f"{int.from_bytes(nb1, 'big')} {int.from_bytes(sign, 'big')} {int.from_bytes(nb2, 'big')}"
-
 if __name__ == '__main__':
     logger = Logger("./logs/bs_client.log", True)
     connect('10.1.1.10')
