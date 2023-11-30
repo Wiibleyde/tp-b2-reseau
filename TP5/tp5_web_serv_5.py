@@ -33,10 +33,11 @@ def listen(ip, port=13337, timeout=60):
                 else:
                     try:
                         logger.debug(splitted[1][1:])
-                        with open(f"./assets/{splitted[1][1:]}", "r") as f:
+                        with open(f"./assets/{splitted[1][1:]}", "rb") as f:
                             logger.info(f"Envoi du fichier {splitted[1][1:]} au client {addr}.")
-                            for line in f:
-                                conn.send(line.encode())
+                            size = len(f.read())
+                            f.seek(0)
+                            conn.send(f"HTTP/1.0 200 OK\nContent-Length: {size}\n\n".encode() + f.read())
                     except FileNotFoundError:
                         logger.info(f"Envoi de la réponse 404 au client {addr}.")
                         conn.send("HTTP/1.0 404 Not Found\n\n<h1>404 Not Found</h1>".encode())
