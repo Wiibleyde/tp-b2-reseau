@@ -25,7 +25,7 @@ def listen(ip, port=13337, timeout=60):
             splitted = data.split(" ")
             logger.debug(f"Requête reçue du client {addr} : {splitted}")
             
-            # Download the file
+            # Download the file it can be images, html, css, js, etc.
             if splitted[0] == "GET":
                 if splitted[1] == "/":
                     logger.info(f"Envoi de la réponse par défaut au client {addr}.")
@@ -35,7 +35,8 @@ def listen(ip, port=13337, timeout=60):
                         logger.debug(splitted[1][1:])
                         with open(f"./assets/{splitted[1][1:]}", "r") as f:
                             logger.info(f"Envoi du fichier {splitted[1][1:]} au client {addr}.")
-                            conn.send("HTTP/1.0 200 OK\n\n".encode() + f.read().encode())
+                            for line in f:
+                                conn.send(line.encode())
                     except FileNotFoundError:
                         logger.info(f"Envoi de la réponse 404 au client {addr}.")
                         conn.send("HTTP/1.0 404 Not Found\n\n<h1>404 Not Found</h1>".encode())
