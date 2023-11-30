@@ -38,8 +38,13 @@ def listen(ip, port=13337, timeout=60):
             nb2 = calc[int.from_bytes(nb1Size, 'big'):int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big')]
             calcul = f"{int.from_bytes(nb1, 'big')}{sign}{int.from_bytes(nb2, 'big')}"
             logger.info(f"Calcul reçu du client {addr} : {calcul}")
-            answer = str(eval(calcul))
-            conn.send(answer.encode())
+            answer = int(eval(calcul))
+            if answer < 0:
+                header = 0
+            else:
+                header = 1
+            conn.send(header.to_bytes(1, 'big'))
+            conn.send(answer.to_bytes(4, 'big'))
             logger.info(f"Réponse envoyée au client {addr} : {answer}")
             
             end = conn.recv(1)

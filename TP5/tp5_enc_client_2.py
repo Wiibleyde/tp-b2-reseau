@@ -21,7 +21,9 @@ def connect(ip:str, port:int=13337):
                 s.send(header + int(splitted[0]).to_bytes(nb1Size, 'big') + int(splitted[2]).to_bytes(nb2Size, 'big') + end)
                 logger.info(f"Message envoyé au serveur {ip}:{port} : {header + int(splitted[0]).to_bytes(nb1Size, 'big') + int(splitted[2]).to_bytes(nb2Size, 'big') + end}")
 
-                answer = s.recv(1024).decode()
+                positive = s.recv(1) == b'\x00'
+                number = int.from_bytes(s.recv(4), 'big')       
+                answer = f"{number}" if positive else f"-{number}"
                 logger.info(f"Réponse du serveur {ip}:{port} : {answer}")
             else:
                 exit(1)
