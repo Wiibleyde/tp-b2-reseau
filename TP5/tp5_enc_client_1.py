@@ -13,21 +13,11 @@ def connect(ip:str, port:int=13337):
 
             if testIfNumberAreValid(message):
                 encoded = message.encode(encoding='utf-8')
-
-                # size = calcMessageSize(encoded)
-                # header = size.to_bytes(4, 'big')
                 splitted = message.split(" ")
-                
                 nb1Size, nb2Size, sign = calcNumberSize(int(splitted[0]), int(splitted[2]), splitted[1])
                 header = nb1Size.to_bytes(1, 'big') + nb2Size.to_bytes(1, 'big') + sign.to_bytes(1, 'big')
-
                 end = 0
                 end = end.to_bytes(1, 'big')
-
-                logger.debug(header+int(splitted[0]).to_bytes(nb1Size, 'big')+int(splitted[2]).to_bytes(nb2Size, 'big')+end)
-
-                logger.debug(decodeMessage(header+int(splitted[0]).to_bytes(nb1Size, 'big')+int(splitted[2]).to_bytes(nb2Size, 'big')+end))
-
                 s.send(header + int(splitted[0]).to_bytes(nb1Size, 'big') + int(splitted[2]).to_bytes(nb2Size, 'big') + end)
                 logger.info(f"Message envoyé au serveur {ip}:{port} : {header + int(splitted[0]).to_bytes(nb1Size, 'big') + int(splitted[2]).to_bytes(nb2Size, 'big') + end}")
 
@@ -83,12 +73,6 @@ def decodeMessage(message: bytes) -> str:
     nb1 = message[3:3+int.from_bytes(nb1Size, 'big')]
     nb2 = message[3+int.from_bytes(nb1Size, 'big'):3+int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big')]
     end = message[3+int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big'):]
-    logger.debug(f"nb1Size: {nb1Size}")
-    logger.debug(f"nb2Size: {nb2Size}")
-    logger.debug(f"sign: {sign}")
-    logger.debug(f"nb1: {nb1}")
-    logger.debug(f"nb2: {nb2}")
-    logger.debug(f"end: {end}")
     return f"{int.from_bytes(nb1, 'big')} {int.from_bytes(sign, 'big')} {int.from_bytes(nb2, 'big')}"
 
 if __name__ == '__main__':

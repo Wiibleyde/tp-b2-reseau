@@ -21,13 +21,9 @@ def listen(ip, port=13337, timeout=60):
             logger.info(f"Un client {addr} s'est connecté.")
 
             header = conn.recv(3)
-            logger.debug(f"Header reçu du client {addr} : {header}")
-
             size = header[:2]
             nb1Size = size[0:1]
-            logger.debug(f"nb1Size: {nb1Size}")
             nb2Size = size[1:2]
-            logger.debug(f"nb2Size: {nb2Size}")
             sign = header[2:3]
             decodedSign = int.from_bytes(sign, 'big')
             if decodedSign == 0:
@@ -36,20 +32,18 @@ def listen(ip, port=13337, timeout=60):
                 sign = "-"
             elif decodedSign == 2:
                 sign = "*"
-            logger.debug(f"sign: {sign}")
+            
             calc = conn.recv(int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big'))
-            logger.debug(f"Calcul reçu du client {addr} : {calc}")
             nb1 = calc[:int.from_bytes(nb1Size, 'big')]
-            logger.debug(f"nb1: {nb1}")
             nb2 = calc[int.from_bytes(nb1Size, 'big'):int.from_bytes(nb1Size, 'big')+int.from_bytes(nb2Size, 'big')]
-            logger.debug(f"nb2: {nb2}")
             calcul = f"{int.from_bytes(nb1, 'big')}{sign}{int.from_bytes(nb2, 'big')}"
             logger.info(f"Calcul reçu du client {addr} : {calcul}")
             answer = str(eval(calcul))
             conn.send(answer.encode())
-            logger.info(f"Réponse envoyée au client {addr} : {answer}")
 
+            logger.info(f"Réponse envoyée au client {addr} : {answer}")
             conn.close()
+            
             start_time = time.time()
         except socket.error as e:
             if e.errno == 11:
