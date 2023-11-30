@@ -31,6 +31,7 @@ def listen(ip, port=13337, timeout=60):
                     conn.send("HTTP/1.0 200 OK\n\n<h1>Hello je suis un serveur HTTP</h1>".encode())
                 else:
                     try:
+                        logger.debug(splitted[1][1:])
                         with open(f"./pages{splitted[1][1:]}", "r") as f:
                             logger.info(f"Envoi du fichier {splitted[1][1:]} au client {addr}.")
                             conn.send("HTTP/1.0 200 OK\n\n".encode() + f.read().encode())
