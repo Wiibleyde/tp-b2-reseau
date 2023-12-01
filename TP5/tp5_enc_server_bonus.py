@@ -2,6 +2,8 @@ import socket
 import sys
 import time
 import argparse
+import sympy
+
 from src.logs import Logger
 
 def listen(ip, port=13337, timeout=60):
@@ -25,12 +27,17 @@ def listen(ip, port=13337, timeout=60):
             calc = conn.recv(int.from_bytes(size, 'big'))
             calcul = calc.decode()
             logger.info(f"Calcul reçu du client {addr} : {calcul}")
-            answer = int(eval(calcul))
-            if answer < 0:
+            try:
+                answer = int(sympy.sympify(calcul))
+                if answer < 0:
+                    header = 0
+                    answer = abs(answer)
+                else:
+                    header = 1
+            except TypeError:
+                logger.warning(f"Le calcul envoyé par le client {addr} n'est pas valide.")
+                answer = -0
                 header = 0
-                answer = abs(answer)
-            else:
-                header = 1
             if answer > 4294967295:
                 logger.warning(f"Le résultat du calcul dépasse la taille maximale d'un entier non signé sur 32 bits (4294967295).")
                 answer = 4294967295
