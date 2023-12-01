@@ -13,7 +13,7 @@ def connect(ip:str, port:int=13337):
 
             encoded = message.encode(encoding='utf-8')
             
-            header = calcMessageSize(encoded).to_bytes(2, 'big')
+            header = (calcMessageSize(encoded) - 1).to_bytes(2, 'big')
             end = 0
             end = end.to_bytes(1, 'big')
             s.send(header + encoded + end)

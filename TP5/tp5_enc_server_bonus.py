@@ -13,9 +13,10 @@ def safe_eval(expression):
         node = ast.parse(expression, mode='eval')
     except SyntaxError:
         raise ValueError("Invalid expression syntax")
-
-    # Evaluate the parsed expression
-    return evaluate_node(node.body)
+    try:
+        return evaluate_node(node.body)
+    except ValueError:
+        raise ValueError("Invalid expression")
 
 def evaluate_node(node):
     if isinstance(node, ast.Num):
@@ -64,7 +65,7 @@ def listen(ip, port=13337, timeout=60):
                     answer = abs(answer)
                 else:
                     header = 1
-            except TypeError:
+            except ValueError or SyntaxError:
                 logger.warning(f"Le calcul envoyé par le client {addr} n'est pas valide.")
                 answer = -0
                 header = 0
