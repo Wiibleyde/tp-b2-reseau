@@ -44,8 +44,13 @@ def listen(ip, port=13337, timeout=60):
                 answer = abs(answer)
             else:
                 header = 1
-            conn.send(header.to_bytes(1, 'big') + answer.to_bytes(4, 'big'))
-            logger.info(f"Réponse envoyée au client {addr} : {answer}")
+            if answer > 4294967295:
+                logger.warning(f"Le résultat du calcul dépasse la taille maximale d'un entier non signé sur 32 bits (4294967295).")
+                answer = 4294967295
+                conn.send(header.to_bytes(1, 'big') + answer.to_bytes(4, 'big'))
+            else:
+                conn.send(header.to_bytes(1, 'big') + answer.to_bytes(4, 'big'))
+                logger.info(f"Réponse envoyée au client {addr} : {answer}")
             
             end = conn.recv(1)
             if end == b'\x00':
