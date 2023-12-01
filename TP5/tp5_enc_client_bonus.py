@@ -19,7 +19,10 @@ def connect(ip:str, port:int=13337):
             s.send(header + encoded + end)
             logger.info(f"Message envoyé au serveur {ip}:{port} : {header + encoded + end}")
             positive = s.recv(1) == b'\x01'
-            number = int.from_bytes(s.recv(4), 'big')       
+            number = int.from_bytes(s.recv(4), 'big')  
+            if int(number) == 4294967295:
+                logger.warning(f"Le résultat du calcul dépasse la taille maximale d'un entier sur 32 bits (4294967295).")
+                number = 4294967295
             answer = f"{number}" if positive else f"-{number}"
             logger.info(f"Réponse du serveur {ip}:{port} : {answer}")
     except socket.error:
