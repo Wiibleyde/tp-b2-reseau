@@ -1,10 +1,40 @@
+import ast
 import socket
 import sys
 import time
 import argparse
-import sympy
 
 from src.logs import Logger
+
+import ast
+
+def safe_eval(expression):
+    try:
+        node = ast.parse(expression, mode='eval')
+    except SyntaxError:
+        raise ValueError("Invalid expression syntax")
+
+    # Evaluate the parsed expression
+    return evaluate_node(node.body)
+
+def evaluate_node(node):
+    if isinstance(node, ast.Num):
+        return node.n
+    elif isinstance(node, ast.BinOp):
+        left = evaluate_node(node.left)
+        right = evaluate_node(node.right)
+        if isinstance(node.op, ast.Add):
+            return left + right
+        elif isinstance(node.op, ast.Sub):
+            return left - right
+        elif isinstance(node.op, ast.Mult):
+            return left * right
+        elif isinstance(node.op, ast.Div):
+            if right == 0:
+                raise ValueError("Division by zero")
+            return left / right
+    else:
+        raise ValueError("Invalid expression")
 
 def listen(ip, port=13337, timeout=60):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -23,12 +53,12 @@ def listen(ip, port=13337, timeout=60):
             logger.info(f"Un client {addr} s'est connecté.")
 
             header = conn.recv(3)
-            size = header[:2]            
+            size = header[:2]
             calc = conn.recv(int.from_bytes(size, 'big'))
             calcul = calc.decode()
             logger.info(f"Calcul reçu du client {addr} : {calcul}")
             try:
-                answer = int(sympy.sympify(calcul))
+                answer = safe_eval(calcul)
                 if answer < 0:
                     header = 0
                     answer = abs(answer)

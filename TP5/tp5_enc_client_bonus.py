@@ -16,8 +16,8 @@ def connect(ip:str, port:int=13337):
             header = calcMessageSize(encoded).to_bytes(2, 'big')
             end = 0
             end = end.to_bytes(1, 'big')
-            s.send(header + message + end)
-            logger.info(f"Message envoyé au serveur {ip}:{port} : {header + message + end}")
+            s.send(header + encoded + end)
+            logger.info(f"Message envoyé au serveur {ip}:{port} : {header + encoded + end}")
             positive = s.recv(1) == b'\x01'
             number = int.from_bytes(s.recv(4), 'big')       
             answer = f"{number}" if positive else f"-{number}"
