@@ -9,8 +9,8 @@ async def handle_client(reader, writer):
             break
         message = data.decode()
         print(f"Received {message!r} from {addr!r}")
-        print(f"Send: {message!r}")
-        writer.write(data)
+        print(f"Send: Hello {addr!r}")
+        writer.write(f"Hello {addr!r}".encode())
         await writer.drain()
     print("Close the connection")
     writer.close()
