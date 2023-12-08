@@ -1,12 +1,14 @@
 import asyncio
 import aioconsole
 import argparse
+import os
 
 from src.config import Config
 
-global HOST, PORT
+global HOST, PORT, MESSAGE
 HOST = ""
 PORT = 0
+MESSAGE = []
 
 async def connect_to_server(ip:str, port:int=13337):
     reader, writer = await asyncio.open_connection(ip, port)
@@ -32,6 +34,7 @@ async def main():
             response = await receive_message(reader)
             print('\b' * len(prompt), end='', flush=True)
             print(response)
+            MESSAGE.append(response)
             print(prompt, end='', flush=True)
 
     receive_task = asyncio.create_task(receive_messages())
@@ -41,6 +44,7 @@ async def main():
         while True:
             try:
                 message = await aioconsole.ainput(prompt)
+                rewrite_conversation()
             except KeyboardInterrupt:
                 exit(1)
             print('\b' * len(prompt), end='', flush=True)
@@ -61,6 +65,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("-ho", "--host", help="Host IP", type=str, default=config.get_host())
     parser.add_argument("-p", "--port", help="Port", type=int, default=config.get_port())
     return parser.parse_args()
+
+def rewrite_conversation():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    for message in MESSAGE:
+        print(message)
 
 if __name__ == '__main__':
     config = Config("./config_cli.yml")

@@ -1,35 +1,43 @@
-import pymongo
+import mysql.connector
 
 class History:
-    def __init__(self):
-        self.client = pymongo.MongoClient(f"mongodb://localhost:27017/")
-        self.db = self.client["chat"]
-        
-    def createRoom(self, roomName: str):
-        if not self.isRoomExist(roomName):                
-            self.db[roomName].drop()
-            self.db.create_collection(roomName)
+    def __init__(self, host, user, password, database):
+        self.host = host
+        self.user = user
+        self.password = password
+        self.database = database
 
-    def insertMessage(self, roomName: str, message: dict) -> None:
-        self.db[roomName].insert_one(message)
+    def connect(self):
+        self.db = mysql.connector.connect(
+            host=self.host,
+            user=self.user,
+            password=self.password,
+            database=self.database
+        )
 
-    def isRoomExist(self, roomName: str) -> bool:
-        return roomName in self.db.list_collection_names()
+    def disconnect(self):
+        self.db.close()
 
-    def getRoomMessages(self, roomName: str) -> list:
-        return list(self.db[roomName].find())
-    
-    def getRooms(self) -> list:
-        return self.db.list_collection_names()
-    
-    def close(self):
-        self.client.close()
+    def insert(self, data):
+        self.connect()
+        cursor = self.db.cursor()
+        sql = "INSERT INTO history (date, time, temperature, humidity) VALUES (%s, %s, %s, %s)"
+        val = (data['date'], data['time'], data['temperature'], data['humidity'])
+        cursor.execute(sql, val)
+        self.db.commit()
+        self.disconnect()
 
-if __name__ == "__main__":
-    history = History()
-    history.createRoom("test")
-    history.insertMessage("test", {"message": "test"})
-    history.insertMessage("test", {"message": "test2"})
-    print(history.getRoomMessages("test"))
-    print(history.getRooms())
-    history.close()
+    def select(self):
+        self.connect()
+        cursor = self.db.cursor()
+        cursor.execute("SELECT * FROM history")
+        result = cursor.fetchall()
+        self.disconnect()
+        return result
+
+    def delete(self):
+        self.connect()
+        cursor = self.db.cursor()
+        cursor.execute("DELETE FROM history")
+        self.db.commit()
+        self.disconnect()
