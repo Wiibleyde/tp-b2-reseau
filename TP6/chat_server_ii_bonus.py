@@ -87,12 +87,11 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 if __name__ == '__main__':
-    config = Config("./config.yml")
+    config = Config("./config_srv.yml")
     args = parse_args()
-    if args.host != config.get_host():
-        HOST = args.host
-    if args.port != config.get_port():
-        PORT = args.port
+    config.set_config(args.host, args.port)
+    HOST = config.get_host()
+    PORT = config.get_port()
     logger = Logger("/var/log/chat_room/server.log")
     logger.info("Lancement du serveur")
     asyncio.run(main())
