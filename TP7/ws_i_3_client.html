@@ -9,6 +9,7 @@
             background-color: #0e0e10;
             color: #b9a3e3;
             font-family: Arial, sans-serif;
+            margin: 1%;
         }
 
         #response {
@@ -19,6 +20,9 @@
             border-radius: 5px;
             padding: 5px;
             background-color: #262626;
+            /* Disable scroll bar */
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
         }
     
         input[type="text"] {
@@ -68,10 +72,33 @@
             width: 80%;
             margin-right: 10px;
         }
+
+        #send {
+            width: 10%;
+        }
+
+        #title {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        #welcome {
+            font-size: 15px;
+            color: gray;
+        }
     </style>
 </head>
 <body>
-    <div id="response" style="height: 80vh; overflow-y: scroll;"></div>
+    <div id="title">
+        <h1>Chat Room</h1>
+    </div>
+    <div id="response" style="height: 80vh; overflow-y: scroll;">
+        <p id="welcome">Bienvenue sur le chat !</p>
+    </div>
     <div class="inputs">
         <input type="text" name="username" id="username" placeholder="Username">
         <input type="text" name="message" id="message" placeholder="Message">
