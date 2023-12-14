@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WS Chat room Client</title>
+    <style>
+        body {
+            background-color: #0e0e10;
+            color: #b9a3e3;
+            font-family: Arial, sans-serif;
+        }
+
+        #response {
+            width: 100%;
+            height: 80vh;
+            margin: auto;
+            border: 1px solid #6441a4;
+            border-radius: 5px;
+            padding: 5px;
+            background-color: #262626;
+        }
+    
+        input[type="text"] {
+            height: 30px;
+            border: 1px solid #6441a4;
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 10px;
+            background-color: #0e0e10;
+            color: #b9a3e3;
+        }
+    
+        button {
+            width: 10%;
+            height: 30px;
+            border: 1px solid #6441a4;
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 10px;
+            background-color: #6441a4;
+            color: #b9a3e3;
+        }
+    
+        button:hover {
+            cursor: pointer;
+            background-color: #b9a3e3;
+            color: #6441a4;
+        }
+
+        .inputs {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+
+        #username {
+            width: 10%;
+            margin-right: 10px;
+        }
+
+        #message {
+            width: 80%;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="response" style="height: 80vh; overflow-y: scroll;"></div>
+    <div class="inputs">
+        <input type="text" name="username" id="username" placeholder="Username">
+        <input type="text" name="message" id="message" placeholder="Message">
+        <button id="send">Send</button>
+    </div>
+</body>
+<script src="./ws_i_3_client.js"></script>
+</html>
